@@ -80,9 +80,18 @@ export class BrowserTester {
   }
 
   evaluate(code: string) {
-    const func = new Function('test', 'expect', 'beforeEach', 'afterEach', 'setBrowserSize', code)
+    const func = new Function(
+      'test', 
+      'it', 
+      'expect', 
+      'beforeEach', 
+      'afterEach', 
+      'setBrowserSize', 
+      code
+    )
     func(
       this.test.bind(this), 
+      this.it.bind(this),
       this.expect.bind(this), 
       this.beforeEach.bind(this), 
       this.afterEach.bind(this), 
