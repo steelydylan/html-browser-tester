@@ -2,9 +2,17 @@
 
 HTML Based browser tester without Node.js
 
+## Install
+
+```
+npm install html-browser-tester
+```
+
 ## Example
 
 ```js
+import { BrowserTester } from 'html-browser-tester'
+
 const html = `
   <!DOCTYPE html>
   <html lang="ja">
@@ -27,21 +35,21 @@ const html = `
 `
 
 const main = async () => {
-  const browserTest = new BrowserTest({ html, width: 980, height: 980 })
+  const browserTester = new BrowserTesterer({ html, width: 980, height: 980 })
 
-  browserTest.test('h1,h2 textContent should have right textContent', async (_, doc) => {
+  browserTester.test('h1,h2 textContent should have right textContent', async (_, doc) => {
     const h1 = doc.querySelector('h1')
     const h2 = doc.querySelector('h2')
-    browserTest.expect(h1?.textContent).toBe('Title1')
-    browserTest.expect(h2?.textContent).toBe('Title2')
+    browserTester.expect(h1?.textContent).toBe('Title1')
+    browserTester.expect(h2?.textContent).toBe('Title2')
   })
 
-  browserTest.test('title should have right textContent', async (_, doc) => {
+  browserTester.test('title should have right textContent', async (_, doc) => {
     const title = doc.querySelector('title')
-    browserTest.expect(title?.textContent).toBe('Hello')
+    browserTester.expect(title?.textContent).toBe('Hello')
   })
 
-  const results = await browserTest.run()
+  const results = await browserTester.run()
 
   console.log(results)
 }
