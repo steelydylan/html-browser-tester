@@ -57,7 +57,39 @@ const main = async () => {
   const results = await browserTester.run()
 
   console.log(results)
+  /*
+   [
+    { description: 'h1,h2 textContent should have right textContent', result: true },
+    { description: 'title should have right textContent', result: true },
+    { description: 'h2 should have red text', result: true }
+   ]
+  */
 }
 
 main()
+```
+
+### Evaluate
+
+You can also evaluate template literals to run tests
+
+```js
+browserTest.evaluate(`
+  test('h1,h2 textContent should have right textContent', async (_, doc) => {
+    const h1 = doc.querySelector('h1')
+    const h2 = doc.querySelector('h2')
+    expect(h1?.textContent).toBe('Title1')
+    expect(h2?.textContent).toBe('Title2')
+  })
+
+  test('title should have right textContent', async (_, doc) => {
+    const title = doc.querySelector('title')
+    expect(title?.textContent).toBe('Hello')
+  })
+
+  test('h2 should have red text', async (window, doc) => {
+    const h2 = doc.querySelector('h2')
+    expect(window.getComputedStyle(h2).color).toBe('rgb(255, 0, 0)')
+  })
+`)
 ```

@@ -41,6 +41,11 @@ const main = async () => {
     browserTest.expect(window.getComputedStyle(h2).color).toBe('rgb(255, 0, 0)')
   })
 
+  // browserTest.test('can insert text to h5', async (window, doc) => {
+  //   const h5 = doc.querySelector('h5') as HTMLHeadingElement
+  //   h5.textContent = 'aaaa'
+  // })
+
   const results = await browserTest.run()
 
   console.log(results)

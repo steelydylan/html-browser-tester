@@ -72,6 +72,11 @@ export class BrowserTester {
     this.tests = []
   }
 
+  evaluate(code: string) {
+    const func = new Function('test', 'expect', 'beforeEach', 'afterEach', code)
+    func(this.test.bind(this), this.expect.bind(this), this.beforeEach.bind(this), this.afterEach.bind(this))
+  }
+
   run() {
     return new Promise<Result[]>((resolve) => {
       const blob = new Blob(
@@ -95,12 +100,19 @@ export class BrowserTester {
           for (const b of this.beforeEachCallbacks) {
             await b(iframe.contentWindow as Window, iframe.contentDocument as Document)
           }
-          await t.callback(iframe.contentWindow as Window, iframe.contentDocument as Document)
           const { description } = t
-          results.push({
-            description,
-            result: this.expects.isAllPassed()
-          })
+          try {
+            await t.callback(iframe.contentWindow as Window, iframe.contentDocument as Document)
+            results.push({
+              description,
+              result: this.expects.isAllPassed()
+            })
+          } catch (e) {
+            results.push({
+              description,
+              result: false,
+            })
+          }
           this.expects.clean()
           for (const a of this.afterEachCallbacks) {
             await a(iframe.contentWindow as Window, iframe.contentDocument as Document)
