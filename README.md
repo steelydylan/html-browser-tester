@@ -92,4 +92,5 @@ browserTest.evaluate(`
     expect(window.getComputedStyle(h2).color).toBe('rgb(255, 0, 0)')
   })
 `)
+const results = await browserTester.run()
 ```
