@@ -68,6 +68,10 @@ export class BrowserTester {
     return this.expects.expect(value)
   }
 
+  clearTests() {
+    this.tests = []
+  }
+
   run() {
     return new Promise<Result[]>((resolve) => {
       const blob = new Blob(
@@ -78,6 +82,8 @@ export class BrowserTester {
       const iframe = document.createElement('iframe')
       const body = document.querySelector('body') as HTMLBodyElement
       this.iframe = iframe
+      iframe.style.opacity = '0'
+      iframe.style.pointerEvents = 'none'
       iframe.src = url
       if (this.width && this.height) {
         iframe.width = `${this.width}px`
