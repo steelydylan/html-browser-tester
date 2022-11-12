@@ -35,7 +35,7 @@ const html = `
 `
 
 const main = async () => {
-  const browserTester = new BrowserTesterer({ html, width: 980, height: 980 })
+  const browserTester = new BrowserTester({ html, width: 980, height: 980 })
 
   browserTester.test('h1,h2 textContent should have right textContent', async (_, doc) => {
     const h1 = doc.querySelector('h1')
