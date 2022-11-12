@@ -64,6 +64,13 @@ export class BrowserTester {
     })
   }
 
+  it(description: string, callback: (window: Window, doc: Document) => Promise<void>) {
+    this.tests.push({
+      description,
+      callback,
+    })
+  }
+
   expect(value: unknown) {
     return this.expects.expect(value)
   }
