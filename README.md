@@ -49,6 +49,11 @@ const main = async () => {
     browserTester.expect(title?.textContent).toBe('Hello')
   })
 
+  browserTester.test('h2 should have red text', async (window, doc) => {
+    const h2 = doc.querySelector('h2')
+    browserTest.expect(window.getComputedStyle(h2).color).toBe('rgb(255, 0, 0)')
+  })
+
   const results = await browserTester.run()
 
   console.log(results)

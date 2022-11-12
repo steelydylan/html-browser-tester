@@ -2,7 +2,6 @@
   "name": "html-browser-tester",
   "main": "./lib/browser-test.js",
   "types": "./lib/browser-test.d.ts",
-  "private": true,
   "version": "0.0.1",
   "scripts": {
     "dev": "vite",
