@@ -1,15 +1,17 @@
 {
-  "name": "browser-test-on-browser",
+  "name": "html-browser-tester",
+  "main": "./lib/browser-test.js",
+  "types": "./lib/browser-test.d.ts",
   "private": true,
-  "version": "0.0.0",
-  "type": "module",
+  "version": "0.0.1",
   "scripts": {
     "dev": "vite",
     "preview": "vite preview",
-    "build": "tsc"
+    "build:lib": "tsc"
   },
   "devDependencies": {
     "typescript": "^4.6.4",
     "vite": "^3.2.3"
-  }
+  },
+  "dependencies": {}
 }

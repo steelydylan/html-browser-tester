@@ -1,5 +1,6 @@
-import { BrowserTester } from "./browser-test";
+## Example
 
+```js
 const html = `
   <!DOCTYPE html>
   <html lang="ja">
@@ -17,7 +18,7 @@ const html = `
 `
 
 const main = async () => {
-  const browserTest = new BrowserTester({ html, width: 980, height: 980 })
+  const browserTest = new BrowserTest({ html, width: 980, height: 980 })
 
   browserTest.test('h1,h2 textContent should have right textContent', async (_, doc) => {
     const h1 = doc.querySelector('h1')
@@ -37,3 +38,4 @@ const main = async () => {
 }
 
 main()
+```
