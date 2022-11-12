@@ -8,6 +8,11 @@ const html = `
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Hello</title>
+    <style>
+      h2 {
+        color: red;
+      }
+    </style>
   </head>
   <body>
     <h1>Title1</h1>
@@ -29,6 +34,11 @@ const main = async () => {
   browserTest.test('title should have right textContent', async (_, doc) => {
     const title = doc.querySelector('title')
     browserTest.expect(title?.textContent).toBe('Hello')
+  })
+
+  browserTest.test('h2 should have red text', async (window, doc) => {
+    const h2 = doc.querySelector('h2') as HTMLHeadingElement
+    browserTest.expect(window.getComputedStyle(h2).color).toBe('rgb(255, 0, 0)')
   })
 
   const results = await browserTest.run()

@@ -1,3 +1,7 @@
+# HTML Browser Tester
+
+HTML Based browser tester without Node.js
+
 ## Example
 
 ```js
@@ -9,6 +13,11 @@ const html = `
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Hello</title>
+    <style>
+      h1 {
+        color: #000;
+      }
+    </style>
   </head>
   <body>
     <h1>Title1</h1>
