@@ -2,23 +2,23 @@ export const assert = (expected: unknown) => ({
   toBe: (resut: unknown) => {
     return expected === resut
   },
-  toBeTruthy: (result: unknown) => {
-    return !!result
+  toBeTruthy: () => {
+    return !!expected
   },
-  toBeFalsy: (result: unknown) => {
-    return !result
+  toBeFalsy: () => {
+    return !expected
   },
-  toBeNull: (result: unknown) => {
-    return result === null
+  toBeNull: () => {
+    return expected === null
   },
-  toBeUndefined: (result: unknown) => {
-    return result === undefined
+  toBeUndefined: () => {
+    return expected === undefined
   },
-  toBeDefined: (result: unknown) => {
-    return result !== undefined
+  toBeDefined: () => {
+    return expected !== undefined
   },
-  toBeNaN: (result: unknown) => {
-    return result === NaN
+  toBeNaN: () => {
+    return expected === NaN
   },
   toMatch: (result: unknown) => {
     if (typeof expected === 'string' && typeof result === 'string') {
