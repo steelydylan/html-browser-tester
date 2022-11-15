@@ -3,10 +3,10 @@ export const assert = (expected: unknown) => ({
     return expected === resut
   },
   toBeTruthy: (result: unknown) => {
-    return result === true
+    return !!result
   },
   toBeFalsy: (result: unknown) => {
-    return result === false
+    return !result
   },
   toBeNull: (result: unknown) => {
     return result === null
@@ -20,9 +20,17 @@ export const assert = (expected: unknown) => ({
   toBeNaN: (result: unknown) => {
     return result === NaN
   },
+  toMatch: (result: unknown) => {
+    if (typeof expected === 'string' && typeof result === 'string') {
+      if (expected.indexOf(result) !== -1) {
+        return true
+      }
+    }
+    return false
+  },
   toContain: (result: unknown) => {
     if (Array.isArray(expected)) {
-      expected.some(item => item === result)
+      return expected.includes(result)
     }
     return false
   },
