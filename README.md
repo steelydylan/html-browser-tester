@@ -1,6 +1,6 @@
 # HTML Browser Tester
 
-HTML Based browser tester without Node.js
+HTML Based browser tester without Node.js, Especially for HTML, CSS tests
 
 ## Install
 
