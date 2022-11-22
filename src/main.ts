@@ -25,7 +25,9 @@ const html = `
     <h2>Title2</h2>
   </body>
   <script>
-    console.log('hogehoge')
+    function main() {
+      console.log('hello')
+    }
   </script>
   </html>
 `
@@ -50,11 +52,12 @@ const main = async () => {
     browserTest.expect(window.getComputedStyle(h2).color).toBe('rgb(255, 0, 0)')
   })
 
-  browserTest.test('console.log to have been called with `aaaa, bbb`', async (window, doc) => {
+  browserTest.test('console.log to have been called with `hello`', async (window) => {
     const spy = browserTest.spyOn(window.console, 'log')
-    window.console.log('aaaa', 'bbb')
+    // @ts-ignore
+    window.main()
     browserTest.expect(spy).toHaveBeenCalled()
-    browserTest.expect(spy).toHaveBeenCalledWith('aaaa', 'bbb')
+    browserTest.expect(spy).toHaveBeenCalledWith('hello')
   })
 
   const results = await browserTest.run()
