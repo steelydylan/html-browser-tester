@@ -1,7 +1,7 @@
 import { assert } from './assert';
 
 type AssertKey = keyof ReturnType<typeof assert>
-type TruthyAssertObject = { [T in AssertKey]: (value: unknown) => void }
+type TruthyAssertObject = { [T in AssertKey]: (...value: unknown[]) => void }
 
 type ReturnObject = 
   TruthyAssertObject
@@ -18,13 +18,15 @@ export class Expect {
       not: {},
     } as ReturnObject;
     (Object.keys(assertedObject) as AssertKey[]).forEach((key) => {
-      returnObject[key] = (result: unknown) => {
-        this.expects.push(assertedObject[key](result))
+      returnObject[key] = (...result: unknown[]) => {
+        // @ts-ignore
+        this.expects.push(assertedObject[key](...result))
       }
     })
     ;(Object.keys(assertedObject) as AssertKey[]).forEach((key) => {
-      returnObject.not[key] = (result: unknown) => {
-        this.expects.push(!assertedObject[key](result))
+      returnObject.not[key] = (...result: unknown[]) => {
+        // @ts-ignore
+        this.expects.push(!assertedObject[key](...result))
       }
     })
     return returnObject;

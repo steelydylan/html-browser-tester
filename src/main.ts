@@ -1,5 +1,11 @@
 import { BrowserTester } from "./browser-test";
 
+declare global {
+  interface Window {
+    console: Console; // 👈️ turn off type checking
+  }
+}
+
 const html = `
   <!DOCTYPE html>
   <html lang="ja">
@@ -18,6 +24,9 @@ const html = `
     <h1>Title1</h1>
     <h2>Title2</h2>
   </body>
+  <script>
+    console.log('hogehoge')
+  </script>
   </html>
 `
 
@@ -41,10 +50,12 @@ const main = async () => {
     browserTest.expect(window.getComputedStyle(h2).color).toBe('rgb(255, 0, 0)')
   })
 
-  // browserTest.test('can insert text to h5', async (window, doc) => {
-  //   const h5 = doc.querySelector('h5') as HTMLHeadingElement
-  //   h5.textContent = 'aaaa'
-  // })
+  browserTest.test('console.log to have been called with `aaaa, bbb`', async (window, doc) => {
+    const spy = browserTest.spyOn(window.console, 'log')
+    window.console.log('aaaa', 'bbb')
+    browserTest.expect(spy).toHaveBeenCalled()
+    browserTest.expect(spy).toHaveBeenCalledWith('aaaa', 'bbb')
+  })
 
   const results = await browserTest.run()
 

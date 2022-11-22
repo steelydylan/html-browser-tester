@@ -1,3 +1,5 @@
+import { Spy } from "../spy"
+
 export const assert = (expected: unknown) => ({
   toBe: (resut: unknown) => {
     return expected === resut
@@ -67,4 +69,24 @@ export const assert = (expected: unknown) => ({
     }
     return false
   },
+  toHaveBeenCalled: () => {
+    if (!(expected instanceof Spy)) {
+      return false
+    }
+    if (expected.called) {
+      return true
+    }
+    return false
+  },
+  toHaveBeenCalledWith: (...args: any[]) => {
+    if (!(expected instanceof Spy)) {
+      return false
+    }
+    if (!expected.calledArgs.length) {
+      return false
+    }
+    return expected.calledArgs.some(arg => {
+      return arg.every((a, i) => a === args[i])
+    })
+  }
 })

@@ -1,4 +1,5 @@
 import { Expect } from "./expect";
+import { Spy } from "./spy";
 
 type Option = {
   html: string;
@@ -40,6 +41,10 @@ export class BrowserTester {
     }
   }
 
+  spyOn<T extends string>(obj: Record<T, Function>, key: T) {
+    return new Spy(obj, key)
+  }
+
   setBrowserSize(width: number, height: number) {
     if (width) {
       this.iframe.width = `${width}px`
@@ -71,8 +76,9 @@ export class BrowserTester {
     })
   }
 
-  expect(value: unknown) {
-    return this.expects.expect(value)
+  expect(...args: unknown[]) {
+    // @ts-ignore
+    return this.expects.expect(...args)
   }
 
   clearTests() {
@@ -86,7 +92,8 @@ export class BrowserTester {
       'expect', 
       'beforeEach', 
       'afterEach', 
-      'setBrowserSize', 
+      'setBrowserSize',
+      'spyOn',
       code
     )
     func(
@@ -95,7 +102,8 @@ export class BrowserTester {
       this.expect.bind(this), 
       this.beforeEach.bind(this), 
       this.afterEach.bind(this), 
-      this.setBrowserSize.bind(this)
+      this.setBrowserSize.bind(this),
+      this.spyOn.bind(this),
     )
   }
 
