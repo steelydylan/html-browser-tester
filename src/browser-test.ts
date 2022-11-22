@@ -103,7 +103,7 @@ export class BrowserTester {
       this.beforeEach.bind(this), 
       this.afterEach.bind(this), 
       this.setBrowserSize.bind(this),
-      this.spyOn.bind(this),
+      this.spyOn,
     )
   }
 
