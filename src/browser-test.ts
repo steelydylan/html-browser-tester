@@ -10,6 +10,7 @@ type Option = {
 type Result = {
   description: string;
   result: boolean;
+  error?: unknown;
 }
 
 type Test = {
@@ -141,6 +142,7 @@ export class BrowserTester {
             results.push({
               description,
               result: false,
+              error: e,
             })
           }
           this.expects.clean()

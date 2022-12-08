@@ -88,5 +88,15 @@ export const assert = (expected: unknown) => ({
     return expected.calledArgs.some(arg => {
       return arg.every((a, i) => a === args[i])
     })
+  },
+  toThrow: () => {
+    try {
+      if (typeof expected === 'function') {
+        expected();
+      }
+    } catch (e) {
+      return true
+    }
+    return false
   }
 })
