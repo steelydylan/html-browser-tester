@@ -2,7 +2,8 @@ import { Expect } from "./expect";
 import { Spy } from "./spy";
 
 type Option = {
-  html: string;
+  html?: string;
+  url?: string;
   width?: number;
   height?: number;
 }
@@ -20,6 +21,7 @@ type Test = {
 
 export class BrowserTester {
   private html = '';
+  private url = '';
   private width?: number;
   private height?: number;
   private iframe!: HTMLIFrameElement;
@@ -30,10 +32,12 @@ export class BrowserTester {
 
   constructor({
     html = '',
+    url = '',
     width,
     height,
   }: Option) {
     this.html = html
+    this.url = url
     if (width) {
       this.width = width
     }
@@ -110,11 +114,14 @@ export class BrowserTester {
 
   run() {
     return new Promise<Result[]>((resolve) => {
-      const blob = new Blob(
-        [this.html],
-        { type: "text/html" }
-      );
-      const url = URL.createObjectURL(blob);
+      let url = this.url
+      if (!url) {
+        const blob = new Blob(
+          [this.html],
+          { type: "text/html" }
+        );
+        url = URL.createObjectURL(blob);
+      }
       const iframe = document.createElement('iframe')
       const body = document.querySelector('body') as HTMLBodyElement
       this.iframe = iframe
