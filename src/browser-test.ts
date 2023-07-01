@@ -16,7 +16,7 @@ type Result = {
 
 type Test = {
   description: string;
-  callback: (window: Window, doc: Document) => Promise<void>
+  callback: (window: Window, doc: Document, iframe: HTMLIFrameElement) => Promise<void>
 }
 
 export class BrowserTester {
@@ -67,14 +67,14 @@ export class BrowserTester {
     this.afterEachCallbacks.push(callback)
   }
 
-  test(description: string, callback: (window: Window, doc: Document) => Promise<void>) {
+  test(description: string, callback: (window: Window, doc: Document, iframe: HTMLIFrameElement) => Promise<void>) {
     this.tests.push({
       description,
       callback,
     })
   }
 
-  it(description: string, callback: (window: Window, doc: Document) => Promise<void>) {
+  it(description: string, callback: (window: Window, doc: Document, iframe: HTMLIFrameElement) => Promise<void>) {
     this.tests.push({
       description,
       callback,
@@ -140,7 +140,7 @@ export class BrowserTester {
           }
           const { description } = t
           try {
-            await t.callback(iframe.contentWindow as Window, iframe.contentDocument as Document)
+            await t.callback(iframe.contentWindow as Window, iframe.contentDocument as Document, iframe)
             results.push({
               description,
               result: this.expects.isAllPassed()
