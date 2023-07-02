@@ -133,6 +133,7 @@ export class BrowserTester {
         iframe.height = `${this.height}px`
       }
       const iframeCallback = async () => {
+        iframe.removeEventListener('load', iframeCallback)
         const results: Result[] = []
         for (const t of this.tests) {
           for (const b of this.beforeEachCallbacks) {
