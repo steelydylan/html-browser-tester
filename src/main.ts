@@ -60,6 +60,16 @@ const main = async () => {
     browserTest.expect(spy).toHaveBeenCalledWith('hello')
   })
 
+
+  await browserTest.evaluate(`
+    test('h1,h2 textContent should have right textContent2', async (_, doc) => {
+      const h1 = doc.querySelector('h1')
+      const h2 = doc.querySelector('h2')
+      expect(h1?.textContent).toBe('Title1')
+      expect(h2?.textContent).toBe('Title2')
+    })
+  `)
+
   const results = await browserTest.run()
 
   console.log(results)

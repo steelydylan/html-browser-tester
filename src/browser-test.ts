@@ -90,7 +90,7 @@ export class BrowserTester {
     this.tests = []
   }
 
-  evaluate(code: string) {
+  evaluate(code: string, args: Record<string, unknown> = {}) {
     const func = new Function(
       'test', 
       'it', 
@@ -99,6 +99,7 @@ export class BrowserTester {
       'afterEach', 
       'setBrowserSize',
       'spyOn',
+      ...Object.keys(args),
       code
     )
     func(
@@ -109,6 +110,7 @@ export class BrowserTester {
       this.afterEach.bind(this), 
       this.setBrowserSize.bind(this),
       this.spyOn,
+      ...Object.values(args)
     )
   }
 
