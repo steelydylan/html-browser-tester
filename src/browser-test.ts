@@ -27,6 +27,8 @@ export class BrowserTester {
   private iframe!: HTMLIFrameElement;
   private tests: Test[] = []
   private expects = new Expect()
+  private beforeAllCallbacks: ((window: Window, doc: Document) => Promise<void>)[] = []
+  private afterAllCallbacks: ((window: Window, doc: Document) => Promise<void>)[] = []
   private beforeEachCallbacks: ((window: Window, doc: Document) => Promise<void>)[] = []
   private afterEachCallbacks: ((window: Window, doc: Document) => Promise<void>)[] = []
 
@@ -57,6 +59,14 @@ export class BrowserTester {
     if (height) {
       this.iframe.height = `${height}px`
     }
+  }
+
+  beforeAll(callback: (window: Window, doc: Document) => Promise<void>) {
+    this.beforeAllCallbacks.push(callback)
+  }
+
+  afterAll(callback: (window: Window, doc: Document) => Promise<void>) {
+    this.afterAllCallbacks.push(callback)
   }
 
   beforeEach(callback: (window: Window, doc: Document) => Promise<void>) {
@@ -137,6 +147,9 @@ export class BrowserTester {
       const iframeCallback = async () => {
         iframe.removeEventListener('load', iframeCallback)
         const results: Result[] = []
+        for (const b of this.beforeAllCallbacks) {
+          await b(iframe.contentWindow as Window, iframe.contentDocument as Document)
+        }
         for (const t of this.tests) {
           for (const b of this.beforeEachCallbacks) {
             await b(iframe.contentWindow as Window, iframe.contentDocument as Document)
@@ -159,6 +172,9 @@ export class BrowserTester {
           for (const a of this.afterEachCallbacks) {
             await a(iframe.contentWindow as Window, iframe.contentDocument as Document)
           }
+        }
+        for (const a of this.afterAllCallbacks) {
+          await a(iframe.contentWindow as Window, iframe.contentDocument as Document)
         }
         iframe.removeEventListener('load', iframeCallback)
         URL.revokeObjectURL(url)
