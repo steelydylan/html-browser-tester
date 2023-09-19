@@ -27,6 +27,7 @@ export class BrowserTester {
   private iframe!: HTMLIFrameElement;
   private tests: Test[] = []
   private expects = new Expect()
+  private setups:  ((window: Window, doc: Document) => Promise<void>)[] = []
   private beforeAllCallbacks: ((window: Window, doc: Document) => Promise<void>)[] = []
   private afterAllCallbacks: ((window: Window, doc: Document) => Promise<void>)[] = []
   private beforeEachCallbacks: ((window: Window, doc: Document) => Promise<void>)[] = []
@@ -59,6 +60,10 @@ export class BrowserTester {
     if (height) {
       this.iframe.height = `${height}px`
     }
+  }
+
+  setup(callback: (window: Window, doc: Document) => Promise<void>) {
+    this.setups.push(callback)
   }
 
   beforeAll(callback: (window: Window, doc: Document) => Promise<void>) {
@@ -109,6 +114,7 @@ export class BrowserTester {
       'afterEach', 
       'beforeAll',
       'afterAll',
+      'setup',
       'setBrowserSize',
       'spyOn',
       ...Object.keys(args),
@@ -122,6 +128,7 @@ export class BrowserTester {
       this.afterEach.bind(this), 
       this.beforeAll.bind(this),
       this.afterAll.bind(this),
+      this.setup.bind(this),
       this.setBrowserSize.bind(this),
       this.spyOn,
       ...Object.values(args)
@@ -151,6 +158,9 @@ export class BrowserTester {
       const iframeCallback = async () => {
         iframe.removeEventListener('load', iframeCallback)
         const results: Result[] = []
+        for (const s of this.setups) {
+          await s(iframe.contentWindow as Window, iframe.contentDocument as Document)
+        }
         for (const b of this.beforeAllCallbacks) {
           await b(iframe.contentWindow as Window, iframe.contentDocument as Document)
         }
