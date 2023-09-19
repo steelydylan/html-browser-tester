@@ -107,6 +107,8 @@ export class BrowserTester {
       'expect', 
       'beforeEach', 
       'afterEach', 
+      'beforeAll',
+      'afterAll',
       'setBrowserSize',
       'spyOn',
       ...Object.keys(args),
@@ -118,6 +120,8 @@ export class BrowserTester {
       this.expect.bind(this), 
       this.beforeEach.bind(this), 
       this.afterEach.bind(this), 
+      this.beforeAll.bind(this),
+      this.afterAll.bind(this),
       this.setBrowserSize.bind(this),
       this.spyOn,
       ...Object.values(args)
