@@ -148,6 +148,7 @@ export class BrowserTester {
       const iframe = document.createElement('iframe')
       const body = document.querySelector('body') as HTMLBodyElement
       this.iframe = iframe
+      iframe.style.position = 'absolute'
       iframe.style.opacity = '0'
       iframe.style.pointerEvents = 'none'
       iframe.src = url
