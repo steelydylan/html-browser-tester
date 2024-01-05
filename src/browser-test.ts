@@ -196,6 +196,7 @@ export class BrowserTester {
         resolve(results)
       }
       iframe.addEventListener('load', iframeCallback)
+      iframe.classList.add('browser-test')
       body.appendChild(iframe)
     })
   }
